@@ -8,9 +8,7 @@ export default function ProjectDetails() {
 
   const params = useParams();
 
-  const id = Array.isArray(params.id)
-    ? params.id[0]
-    : params.id;
+const id = Number(params?.id);
 
   const [boq, setBoq] = useState<any[]>([]);
   const [item, setItem] = useState("");
