@@ -7,7 +7,7 @@ export default function ProjectDetails({
   params,
 }: any) {
 
-  const id = params.id;
+  const id = Number(params.id);
 
   const [boq, setBoq] =
     useState<any[]>([]);
@@ -28,7 +28,10 @@ export default function ProjectDetails({
       await supabase
         .from("boq")
         .select("*")
-        .eqproject_id: Number(id),;
+        .eq(
+          "project_id",
+          id
+        );
 
     if (error) {
 
