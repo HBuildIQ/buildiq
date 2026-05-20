@@ -62,14 +62,14 @@ export default function ProjectDetails({
     const { error } =
       await supabase
         .from("boq")
-        .insert([
-          {
-            project_id: id,
-            item,
-            quantity:
-              Number(quantity),
-            unit_price:
-              Number(unitPrice),
+  .insert([
+  {
+    project_id: 1,
+    item: item,
+    quantity: Number(quantity),
+    unit_price: Number(unitPrice),
+  },
+]);
           },
         ]);
 
