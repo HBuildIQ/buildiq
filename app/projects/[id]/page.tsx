@@ -52,6 +52,34 @@ export default function ProjectDetails({
   // ADD ITEM
   const addItem = async () => {
 
+  if (!item || !quantity || !unitPrice) {
+    return;
+  }
+
+  const { error } = await supabase
+    .from("boq")
+    .insert([
+      {
+        project_id: 1,
+        item: item,
+        quantity: Number(quantity),
+        unit_price: Number(unitPrice),
+      },
+    ]);
+
+  if (error) {
+    console.log(error);
+    alert("Error adding item");
+  } else {
+
+    setItem("");
+    setQuantity("");
+    setUnitPrice("");
+
+    fetchBoq();
+  }
+};
+
     if (
       !item ||
       !quantity ||
