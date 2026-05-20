@@ -311,6 +311,125 @@ export default function ProjectDetails(props: any) {
 
           <tbody>
 
+  {boq.map((row) => (
+
+    <tr
+      key={row.id}
+      className="border-b border-gray-800"
+    >
+
+      {/* ITEM */}
+      <td className="py-4">
+        {row.item}
+      </td>
+
+      {/* QUANTITY */}
+      <td>
+
+        <input
+          type="number"
+          value={row.quantity}
+          onChange={async (e) => {
+
+            const value =
+              Number(e.target.value);
+
+            // UPDATE LOCAL UI
+            const updated =
+              boq.map((item) =>
+                item.id === row.id
+                  ? {
+                      ...item,
+                      quantity: value,
+                    }
+                  : item
+              );
+
+            setBoq(updated);
+
+            // UPDATE DATABASE
+            await supabase
+              .from("boq")
+              .update({
+                quantity: value,
+              })
+              .eq("id", row.id);
+
+          }}
+          className="bg-[#0f172a] p-2 rounded-lg w-24"
+        />
+
+      </td>
+
+      {/* UNIT PRICE */}
+      <td>
+
+        <input
+          type="number"
+          value={row.unit_price}
+          onChange={async (e) => {
+
+            const value =
+              Number(e.target.value);
+
+            // UPDATE LOCAL UI
+            const updated =
+              boq.map((item) =>
+                item.id === row.id
+                  ? {
+                      ...item,
+                      unit_price: value,
+                    }
+                  : item
+              );
+
+            setBoq(updated);
+
+            // UPDATE DATABASE
+            await supabase
+              .from("boq")
+              .update({
+                unit_price: value,
+              })
+              .eq("id", row.id);
+
+          }}
+          className="bg-[#0f172a] p-2 rounded-lg w-28"
+        />
+
+      </td>
+
+      {/* TOTAL */}
+      <td className="text-cyan-400 font-semibold">
+
+        $
+        {(
+          row.quantity *
+          row.unit_price
+        ).toLocaleString()}
+
+      </td>
+
+      {/* DELETE */}
+      <td>
+
+        <button
+          onClick={() =>
+            deleteItem(row.id)
+          }
+          className="bg-red-500 hover:bg-red-400 px-4 py-2 rounded-lg"
+        >
+          Delete
+        </button>
+
+      </td>
+
+    </tr>
+
+  ))}
+
+</tbody>
+
             {boq.map((row) => (
 
               <tr
