@@ -28,7 +28,7 @@ export default function ProjectDetails({
       await supabase
         .from("boq")
         .select("*")
-        .eq("project_id", id);
+        .eqproject_id: Number(id),;
 
     if (error) {
 
