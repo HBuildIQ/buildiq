@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { supabase } from "../../supabase";
 
 export default function ProjectDetails({
@@ -22,12 +21,6 @@ export default function ProjectDetails({
   const [unitPrice, setUnitPrice] =
     useState("");
 
-  useEffect(() => {
-
-    fetchBoq();
-
-  }, []);
-
   // FETCH BOQ
   const fetchBoq = async () => {
 
@@ -46,6 +39,12 @@ export default function ProjectDetails({
       setBoq(data || []);
     }
   };
+
+  useEffect(() => {
+
+    fetchBoq();
+
+  }, []);
 
   // ADD ITEM
   const addItem = async () => {
@@ -98,6 +97,31 @@ export default function ProjectDetails({
     fetchBoq();
   };
 
+  // SUMMARY
+  const totalCost =
+    boq.reduce(
+      (sum, row) =>
+        sum +
+        row.quantity *
+          row.unit_price,
+      0
+    );
+
+  const totalItems =
+    boq.length;
+
+  const averagePrice =
+    boq.length > 0
+      ? (
+          boq.reduce(
+            (sum, row) =>
+              sum +
+              row.unit_price,
+            0
+          ) / boq.length
+        ).toFixed(2)
+      : 0;
+
   return (
 
     <div>
@@ -114,6 +138,55 @@ export default function ProjectDetails({
           <p className="text-gray-400 mt-2">
             Manage project items
           </p>
+
+        </div>
+
+      </div>
+
+      {/* SUMMARY */}
+      <div className="grid grid-cols-3 gap-6 mb-10">
+
+        <div className="bg-[#1e293b] p-6 rounded-2xl">
+
+          <p className="text-gray-400 mb-2">
+            Total Cost
+          </p>
+
+          <h2 className="text-3xl font-bold text-cyan-400">
+
+            $
+            {totalCost.toLocaleString()}
+
+          </h2>
+
+        </div>
+
+        <div className="bg-[#1e293b] p-6 rounded-2xl">
+
+          <p className="text-gray-400 mb-2">
+            Total Items
+          </p>
+
+          <h2 className="text-3xl font-bold text-cyan-400">
+
+            {totalItems}
+
+          </h2>
+
+        </div>
+
+        <div className="bg-[#1e293b] p-6 rounded-2xl">
+
+          <p className="text-gray-400 mb-2">
+            Average Price
+          </p>
+
+          <h2 className="text-3xl font-bold text-cyan-400">
+
+            $
+            {averagePrice}
+
+          </h2>
 
         </div>
 
@@ -211,12 +284,10 @@ export default function ProjectDetails({
                 className="border-b border-gray-800"
               >
 
-                {/* ITEM */}
                 <td className="py-4">
                   {row.item}
                 </td>
 
-                {/* QUANTITY */}
                 <td>
 
                   <input
@@ -263,7 +334,6 @@ export default function ProjectDetails({
 
                 </td>
 
-                {/* UNIT PRICE */}
                 <td>
 
                   <input
@@ -310,7 +380,6 @@ export default function ProjectDetails({
 
                 </td>
 
-                {/* TOTAL */}
                 <td className="text-cyan-400 font-semibold">
 
                   $
@@ -321,7 +390,6 @@ export default function ProjectDetails({
 
                 </td>
 
-                {/* DELETE */}
                 <td>
 
                   <button
