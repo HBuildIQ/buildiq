@@ -349,9 +349,20 @@ export default function ProjectDetails(props: any) {
 
             // UPDATE DATABASE
             await supabase
-              .from("boq")
-              .update({
-                quantity: value,
+              const { data, error } =
+  await supabase
+    .from("boq")
+    .select("*")
+    .eq("project_id", id);
+
+if (error) {
+
+  console.log(error);
+
+} else {
+
+  setBoq(data || []);
+}
               })
               .eq("id", row.id);
 
